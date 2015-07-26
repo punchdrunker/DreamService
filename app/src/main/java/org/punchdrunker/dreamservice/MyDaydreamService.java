@@ -12,7 +12,6 @@ import android.graphics.Point;
 import android.os.Build;
 import android.preference.PreferenceManager;
 import android.service.dreams.DreamService;
-import android.util.Log;
 import android.view.ViewPropertyAnimator;
 import android.view.animation.LinearInterpolator;
 import android.widget.TextView;
@@ -98,9 +97,6 @@ public class MyDaydreamService extends DreamService {
     }
 
     private void startTextViewScrollAnimation() {
-        if (getWindowManager()==null) {
-            return;
-        }
         // Refresh Size of Window
         getWindowManager().getDefaultDisplay().getSize(mPointSize);
 
