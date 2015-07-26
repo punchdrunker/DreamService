@@ -26,6 +26,43 @@ import android.widget.TextView;
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 public class MyDaydreamService extends DreamService {
 
+    private String[] words = {
+            "革命的パラダイムシフト",
+            "フルコミット",
+            "誰よりも責任を取りにいく",
+            "消さない明かり",
+            "労働歓喜",
+            "終わらないランナーズ・ハイ",
+            "当事者意識",
+            "圧倒的成長",
+            "超絶ロジカル",
+            "絶対的求心力",
+            "破壊的リーダーシップ",
+            "根性",
+            "かわいがり",
+            "妥協なきソリューション",
+            "一日は二十四時間じゃない",
+            "石橋は薙ぎ払え",
+            "力をねじ伏せる「パワー」",
+            "地球を味方につける",
+            "ガソリンを飲む",
+            "神業的共感力",
+            "ショウ・マスト・ゴー・オン",
+            "生きていることに感謝",
+            "ありがとう",
+            "挨拶が全て",
+            "目で語れ",
+            "心からの笑顔",
+            "今日お前は何をした",
+            "あと何日生きられる",
+            "のし上がれ",
+            "ビッグデータ",
+            "エコシステム",
+            "キーパーこそ\nロングシュートを打つ",
+            "お前はどうしたい？\nあなたは何したい？",
+            "私心を捨てよ\n大義を抱け",
+    };
+
     private static final TimeInterpolator sInterpolator = new LinearInterpolator();
 
     private final AnimatorListener mAnimListener = new AnimatorListenerAdapter() {
@@ -61,7 +98,6 @@ public class MyDaydreamService extends DreamService {
         setContentView(R.layout.my_daydream);
 
         mDreamTextView = (TextView) findViewById(R.id.dream_text);
-        mDreamTextView.setText(getTextFromPreferences());
     }
 
     @Override
@@ -97,9 +133,12 @@ public class MyDaydreamService extends DreamService {
     }
 
     private void startTextViewScrollAnimation() {
-        if (getWindowManager()==null) {
+        if (getWindowManager() == null) {
             return;
         }
+
+        mDreamTextView.setText(getGreatWord());
+
         // Refresh Size of Window
         getWindowManager().getDefaultDisplay().getSize(mPointSize);
 
@@ -122,6 +161,17 @@ public class MyDaydreamService extends DreamService {
 
         // Start the animation
         mAnimator.start();
+    }
+
+    private String getGreatWord() {
+        Integer key = getRandomKey(this.words.length);
+        return this.words[key];
+    }
+
+    private Integer getRandomKey(Integer range) {
+        long seed = System.currentTimeMillis();
+        Random random = new Random(seed);
+        return random.nextInt(range);
     }
 
 }
