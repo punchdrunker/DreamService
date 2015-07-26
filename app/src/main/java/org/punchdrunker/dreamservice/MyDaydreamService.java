@@ -97,6 +97,9 @@ public class MyDaydreamService extends DreamService {
     }
 
     private void startTextViewScrollAnimation() {
+        if (getWindowManager()==null) {
+            return;
+        }
         // Refresh Size of Window
         getWindowManager().getDefaultDisplay().getSize(mPointSize);
 
