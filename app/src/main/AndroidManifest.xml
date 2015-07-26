@@ -11,7 +11,8 @@
         <!-- This service is only used on devices with API v17+ -->
         <service
             android:name=".MyDaydreamService"
-            android:exported="true" >
+            android:exported="true"
+            android:permission="android.permission.BIND_DREAM_SERVICE">
             <intent-filter>
                 <action android:name="android.service.dreams.DreamService" />
 
