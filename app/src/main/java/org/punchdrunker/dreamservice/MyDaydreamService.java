@@ -1,20 +1,18 @@
 package org.punchdrunker.dreamservice;
 
-import java.util.Random;
-
 import android.animation.Animator;
 import android.animation.Animator.AnimatorListener;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.TimeInterpolator;
 import android.annotation.TargetApi;
-import android.content.SharedPreferences;
 import android.graphics.Point;
 import android.os.Build;
-import android.preference.PreferenceManager;
 import android.service.dreams.DreamService;
 import android.view.ViewPropertyAnimator;
 import android.view.animation.LinearInterpolator;
 import android.widget.TextView;
+
+import java.util.Random;
 
 /**
  * This class is a sample implementation of a DreamService. When activated, a
@@ -26,7 +24,7 @@ import android.widget.TextView;
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 public class MyDaydreamService extends DreamService {
 
-    private String[] words = {
+    private final String[] words = {
             "革命的パラダイムシフト",
             "フルコミット",
             "誰よりも責任を取りにいく",
@@ -62,7 +60,6 @@ public class MyDaydreamService extends DreamService {
             "お前はどうしたい？\nあなたは何したい？",
             "私心を捨てよ\n大義を抱け",
     };
-
     private static final TimeInterpolator sInterpolator = new LinearInterpolator();
 
     private final AnimatorListener mAnimListener = new AnimatorListenerAdapter() {
@@ -126,12 +123,6 @@ public class MyDaydreamService extends DreamService {
         // (for example, detach from handlers and listeners).
     }
 
-    private String getTextFromPreferences() {
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        return prefs.getString(getString(R.string.pref_dream_text_key),
-                getString(R.string.pref_dream_text_default));
-    }
-
     private void startTextViewScrollAnimation() {
         if (getWindowManager() == null) {
             return;
@@ -164,14 +155,7 @@ public class MyDaydreamService extends DreamService {
     }
 
     private String getGreatWord() {
-        Integer key = getRandomKey(this.words.length);
+        Integer key = mRandom.nextInt(this.words.length);
         return this.words[key];
     }
-
-    private Integer getRandomKey(Integer range) {
-        long seed = System.currentTimeMillis();
-        Random random = new Random(seed);
-        return random.nextInt(range);
-    }
-
 }
