@@ -24,7 +24,7 @@ import java.util.Random;
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 public class MyDaydreamService extends DreamService {
 
-    private final String[] words = {
+    private static final String[] words = {
             "革命的パラダイムシフト",
             "フルコミット",
             "誰よりも責任を取りにいく",
@@ -155,7 +155,7 @@ public class MyDaydreamService extends DreamService {
     }
 
     private String getGreatWord() {
-        Integer key = mRandom.nextInt(this.words.length);
-        return this.words[key];
+        Integer key = mRandom.nextInt(words.length);
+        return words[key];
     }
 }
