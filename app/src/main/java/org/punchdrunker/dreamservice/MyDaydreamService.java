@@ -6,6 +6,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.TimeInterpolator;
 import android.annotation.TargetApi;
 import android.graphics.Point;
+import android.graphics.Typeface;
 import android.os.Build;
 import android.service.dreams.DreamService;
 import android.view.ViewPropertyAnimator;
@@ -95,6 +96,7 @@ public class MyDaydreamService extends DreamService {
         setContentView(R.layout.my_daydream);
 
         mDreamTextView = (TextView) findViewById(R.id.dream_text);
+        mDreamTextView.setTypeface(Typeface.createFromAsset(getAssets(), "ipam.ttf"));
     }
 
     @Override
@@ -146,7 +148,7 @@ public class MyDaydreamService extends DreamService {
         // Create an Animator and keep a reference to it
         mAnimator = mDreamTextView.animate().translationX(windowWidth)
                 .setDuration(3000)
-                .setStartDelay(500)
+                .setStartDelay(100)
                 .setListener(mAnimListener)
                 .setInterpolator(sInterpolator);
 
