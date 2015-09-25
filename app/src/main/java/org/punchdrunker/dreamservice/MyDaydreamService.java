@@ -5,7 +5,6 @@ import android.animation.Animator.AnimatorListener;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.TimeInterpolator;
 import android.annotation.TargetApi;
-import android.graphics.Point;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.service.dreams.DreamService;
@@ -63,21 +62,26 @@ public class MyDaydreamService extends DreamService {
     };
     private static final TimeInterpolator sInterpolator = new LinearInterpolator();
 
-    private final AnimatorListener mAnimListener = new AnimatorListenerAdapter() {
-
+    private final AnimatorListener mShowAnimListener = new AnimatorListenerAdapter() {
         @Override
         public void onAnimationEnd(Animator animation) {
             // Start animation again
-            startTextViewScrollAnimation();
+            startTextViewHideAnimation();
         }
-
     };
 
+    private final AnimatorListener mHideAnimListener = new AnimatorListenerAdapter() {
+        @Override
+        public void onAnimationEnd(Animator animation) {
+            // Start animation again
+            startTextViewShowAnimation();
+        }
+    };
     private final Random mRandom = new Random();
-    private final Point mPointSize = new Point();
 
     private TextView mDreamTextView;
-    private ViewPropertyAnimator mAnimator;
+    private ViewPropertyAnimator mShowAnimator;
+    private ViewPropertyAnimator mHideAnimator;
 
     @Override
     public void onAttachedToWindow() {
@@ -103,18 +107,15 @@ public class MyDaydreamService extends DreamService {
     public void onDreamingStarted() {
         super.onDreamingStarted();
 
-        // TODO: Begin animations or other behaviors here.
-
-        startTextViewScrollAnimation();
+        startTextViewShowAnimation();
     }
 
     @Override
     public void onDreamingStopped() {
         super.onDreamingStopped();
 
-        // TODO: Stop anything that was started in onDreamingStarted()
-
-        mAnimator.cancel();
+        mShowAnimator.cancel();
+        mHideAnimator.cancel();
     }
 
     @Override
@@ -125,35 +126,25 @@ public class MyDaydreamService extends DreamService {
         // (for example, detach from handlers and listeners).
     }
 
-    private void startTextViewScrollAnimation() {
-        if (getWindowManager() == null) {
-            return;
-        }
-
+    private void startTextViewShowAnimation() {
         mDreamTextView.setText(getGreatWord());
 
-        // Refresh Size of Window
-        getWindowManager().getDefaultDisplay().getSize(mPointSize);
-
-        final int windowWidth = mPointSize.x;
-        final int windowHeight = mPointSize.y;
-
-        // Move TextView so it's moved all the way to the left
-        mDreamTextView.setTranslationX(-mDreamTextView.getWidth());
-
-        // Move TextView to random y value
-        final int yRange = windowHeight - mDreamTextView.getHeight();
-        mDreamTextView.setTranslationY(mRandom.nextInt(yRange));
-
-        // Create an Animator and keep a reference to it
-        mAnimator = mDreamTextView.animate().translationX(windowWidth)
-                .setDuration(3000)
+        mShowAnimator = mDreamTextView.animate()
+                .alpha(1.0f)
+                .setDuration(1000)
                 .setStartDelay(100)
-                .setListener(mAnimListener)
+                .setListener(mShowAnimListener)
                 .setInterpolator(sInterpolator);
+    }
 
-        // Start the animation
-        mAnimator.start();
+    private void startTextViewHideAnimation() {
+        mHideAnimator = mDreamTextView.animate()
+                .alpha(0.0f)
+                .setDuration(5000)
+                .setStartDelay(5000)
+                .setListener(mHideAnimListener)
+                .setInterpolator(sInterpolator);
+        mHideAnimator.start();
     }
 
     private String getGreatWord() {

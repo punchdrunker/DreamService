@@ -5,9 +5,12 @@
 
     <TextView
         android:id="@+id/dream_text"
+        android:hint="Great Message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal|center_vertical"
         android:fontFamily="sans-serif-light"
+        android:textAlignment="center"
         android:textSize="60sp" />
 
 </FrameLayout>
